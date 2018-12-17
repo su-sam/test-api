@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 
-const transDb = mongoose.model('tranDb', new mongoose.Schema({
+const transDb = mongoose.model('transDb', new mongoose.Schema({
   trans_id : {
       type: String,
       minlength: 64,

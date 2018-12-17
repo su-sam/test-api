@@ -35,7 +35,7 @@ const userDb = mongoose.model('userDb', new mongoose.Schema({
 //   },
   transactions:{
     type : mongoose.Schema.Types.ObjectId,
-    ref : 'tranDb'
+    ref : 'transDb'
   },
 //   entryImgs:{
 //     type : mongoose.Schema.Types.ObjectId,
@@ -47,7 +47,7 @@ function validateUserDb(user) {
   const schema = {
     vehicle_no: Joi.string().min(5).max(7).required(),
     fname: Joi.string().min(3).max(50).required(),
-    lname: Joi.string().min(3).max(50).required(),
+    lname: Joi.string().min(3).max(50).required()
   };
 
   return Joi.validate(user, schema);

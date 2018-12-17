@@ -6,13 +6,6 @@ const {userDb, validate} = require('../modules/user');
 
 const router = express.Router();
 
-// test JSON
-// const user = [
-//     {vehicle_no : 'abc', id : 1, name : 'Suchada', last_online : JSON.stringify(new Date), online_status : 0},
-//     {vehicle_no : 'we3', id : 2, name : 'Manusawee', last_online : JSON.stringify(new Date), online_status : 0},
-//     {vehicle_no : 'r4e', id : 3, name : 'Kemruji', last_online : JSON.stringify(new Date), online_status : 0}
-// ]
-
 // get all user
 router.get('/',async (req,res)=>{
     const users = await userDb.find().populate('transactions').sort('id');
@@ -21,10 +14,7 @@ router.get('/',async (req,res)=>{
 
 //find by vehicle no
 router.get('/:id', async (req,res)=>{
-    // const v_obj = user.find(u => u.vehicle_no === req.params.vehicle_no);
-    // if(!v_obj) res.status(404).send('User not found');
-    // else res.send(toggleStatus(v_obj));
-    
+        
     const user = await userDb.findById(req.params.id);  
     if (!user) return res.status(404).send('The user with the given ID was not found.');
     res.send(user);
@@ -50,16 +40,14 @@ router.post('/create', async (req, res) => {
 
 //put for update a member
 router.put('/edit/:id',async (req,res)=>{
-    // const v_obj = user.find(u => u.vehicle_no === req.params.vehicle_no);
-    // if(!v_obj) res.status(404).send('User not found');
-
+    
     const { error } = validate(req.body); 
     if (error) return res.status(400).send(error.details[0].message);
 
     const user = await userDb.findByIdAndUpdate(req.params.id, { 
         vehicle_no:req.body.vehicle_no,
         fname: req.body.fname,
-        lname: req.body.lname 
+        lname: req.body.lname
     }, { new: true });
 
     if (!user) return res.status(404).send('The user with the given ID was not found.');
