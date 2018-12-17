@@ -15,7 +15,7 @@ const router = express.Router();
 
 // get all user
 router.get('/',async (req,res)=>{
-    const users = await userDb.find().sort('id');
+    const users = await userDb.find().populate('transactions').sort('id');
     res.send(users);
 });
 
@@ -67,7 +67,7 @@ router.put('/edit/:id',async (req,res)=>{
     res.send(user);
 });
 
-// ===========================================================================
+// ==========================n=o=t==o=k=a=y=y=y=y=======================================
 // update online/offline status
 router.put('/toggle/:id', async (req,res)=>{
 

@@ -1,8 +1,8 @@
 //I need to connect to my db whatever u said!!
 
 const home = require('./routes/home');
-const db = require('./routes/db');
 const user = require('./routes/user');
+const tran = require('./routes/trans')
 
 const mongoose = require('mongoose');
 const express = require('express');
@@ -17,9 +17,9 @@ mongoose.connect('mongodb://localhost/car-park')
 
 //router that url path
 app.use('/', home);
-app.use('/db',db);
 app.use('/user',user);
+app.use('/trans',tran);
 
 //network connection
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3003;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

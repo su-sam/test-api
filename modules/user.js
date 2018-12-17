@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
+const {transDb} = require('./trans')
 
 const userDb = mongoose.model('userDb', new mongoose.Schema({
   vehicle_no: {
@@ -27,7 +28,19 @@ const userDb = mongoose.model('userDb', new mongoose.Schema({
   online_status:{
       type: Boolean,
       default: 0
-  }
+  },
+//   payment_method:{
+//     type : mongoose.Schema.Types.ObjectId,
+//     ref : ''
+//   },
+  transactions:{
+    type : mongoose.Schema.Types.ObjectId,
+    ref : 'tranDb'
+  },
+//   entryImgs:{
+//     type : mongoose.Schema.Types.ObjectId,
+//     ref : ''
+//   }
 }));
 
 function validateUserDb(user) {
