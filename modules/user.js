@@ -7,19 +7,22 @@ const userDb = mongoose.model('userDb', new mongoose.Schema({
     type: String,
     required: true,
     minlength: 5,
-    maxlength: 7
+    maxlength: 7,
+    trim : true
   },
   fname:{
       type: String,
       required: true,
       minlength:3,
-      maxlength:50
+      maxlength:50,
+      trim : true
   },
   lname:{
       type: String,
       required: true,
       minlength:3,
-      maxlength:50
+      maxlength:50,
+      trim : true
   },
   last_online:{
       type: Date,
