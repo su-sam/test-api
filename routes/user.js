@@ -1,21 +1,21 @@
 const express = require('express');
 const Joi = require('joi');
 
-const {userDb, validate} = require('../modules/user');
+const {users, validate} = require('../modules/user');
 
 
 const router = express.Router();
 
 // get all user
 router.get('/',async (req,res)=>{
-    const users = await userDb.find().populate('transactions').sort('id');
-    res.send(users);
+    const user = await users.find().sort('id');
+    res.send(user);
 });
 
 //find by vehicle no
 router.get('/:id', async (req,res)=>{
         
-    const user = await userDb.findById(req.params.id);  
+    const user = await users.findById(req.params.id);  
     if (!user) return res.status(404).send('The user with the given ID was not found.');
     res.send(user);
     
@@ -26,12 +26,12 @@ router.post('/create', async (req, res) => {
     const { error } = validate(req.body); 
     if (error) return res.status(400).send(error.details[0].message);
   
-    let user = new userDb({ 
+    let user = new users({ 
         vehicle_no:req.body.vehicle_no,
         fname: req.body.fname,
         lname: req.body.lname,
-        last_online: req.body.last_online,
-        online_status: req.body.online_status
+        email: req.body.email,
+        tel : req.body.tel
     });
     user = await user.save();
     
@@ -40,11 +40,11 @@ router.post('/create', async (req, res) => {
 
 //put for update a member
 router.put('/edit/:id',async (req,res)=>{
-    
+
     const { error } = validate(req.body); 
     if (error) return res.status(400).send(error.details[0].message);
 
-    const user = await userDb.findByIdAndUpdate(req.params.id, { 
+    const user = await users.findByIdAndUpdate(req.params.id, { 
         vehicle_no:req.body.vehicle_no,
         fname: req.body.fname,
         lname: req.body.lname
@@ -55,40 +55,18 @@ router.put('/edit/:id',async (req,res)=>{
     res.send(user);
 });
 
-// ==========================n=o=t==o=k=a=y=y=y=y=======================================
-// update online/offline status
-router.put('/toggle/:id', async (req,res)=>{
-
-    const { error } = validate(req.body); 
-    if (error) return res.status(400).send(error.details[0].message);
-
-    if(!online_status)  { // toggle the status & save last online
-        const user = await userDb.findByIdAndUpdate(req.params.id, { 
-            online_status: online_status,
-            last_online: Date.now
-        }, { new: true });
-        if (!user) return res.status(404).send('The user with the given ID was not found.');
-    }
-    else { // toggle the status
-        const user = await userDb.findByIdAndUpdate(req.params.vehicle_no, { 
-            online_status: req.params.online_status        
-        }, { new: true });
-        if (!user) return res.status(404).send('The user with the given ID was not found.');
-    }
-
-    res.send(user);
-})
-
-// ===========================================================================
-
 //delete for delete a member
 router.delete('/del/:id', async (req, res) => {
-    const user = await userDb.findByIdAndRemove(req.params.id);
+    const user = await users.findByIdAndRemove(req.params.id);
   
     if (!user) return res.status(404).send('The user with the given ID was not found.');
   
     res.send(user);
   });
+
+
+  module.exports = router;
+
 
 // //toggle user_status for online-offline and update DATETIME
 // function toggleStatus(v_obj){
@@ -100,5 +78,3 @@ router.delete('/del/:id', async (req, res) => {
 //     return v_obj
 // }
 
-
-module.exports = router;

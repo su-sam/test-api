@@ -3,7 +3,6 @@
 const home = require('./routes/home');
 const user = require('./routes/user');
 const tran = require('./routes/trans');
-const usertrans = require('./routes/usertrans');
 
 const mongoose = require('mongoose');
 const express = require('express');
@@ -20,8 +19,7 @@ mongoose.connect('mongodb://localhost/car-park')
 app.use('/', home);
 app.use('/user',user);
 app.use('/trans',tran);
-app.use('/usertrans',usertrans);
 
 //network connection
-const port = process.env.PORT || 3006;
+const port = process.env.PORT || 3008;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

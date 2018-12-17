@@ -1,32 +1,38 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 
-const transDb = mongoose.model('transDb', new mongoose.Schema({
-  trans_id : {
+const txs = mongoose.model('txs', new mongoose.Schema({
+  tx_id : {
       type: String,
       minlength: 64,
       maxlength: 64,
+      trim : true,
       required: true
   },
-  trans_status : {
+  tx_status : {
       type : Boolean,
-      default : 0
+      default : false
   },
-  trans_date : {
+  tx_date : {
     type : Date,
-    default : Date.now,
+    default : Date.now
+  },
+  user_id :{
+    type : mongoose.Schema.Types.ObjectId,
+    ref : "users",
     required : true
   }
 }));
 
-function validateTranDb(tran) {
+function validateTxs(tran) {
   const schema = {
-    trans_id: Joi.string().min(64).max(64).required(),
-    trans_status: Joi.boolean()
+    tx_id: Joi.string().min(64).max(64).required(),
+    tx_status: Joi.boolean(),
+    user_id : Joi.string()
   };
 
   return Joi.validate(tran, schema);
 }
 
-exports.transDb = transDb; 
-exports.validate = validateTranDb;
+exports.txs = txs; 
+exports.validate = validateTxs;
