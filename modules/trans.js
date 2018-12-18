@@ -20,6 +20,7 @@ const txs = mongoose.model('txs', new mongoose.Schema({
   user_id :{
     type : mongoose.Schema.Types.ObjectId,
     ref : "users",
+    trim : true,
     required : true
   }
 }));
@@ -28,7 +29,7 @@ function validateTxs(tran) {
   const schema = {
     tx_id: Joi.string().min(64).max(64).required(),
     tx_status: Joi.boolean(),
-    user_id : Joi.string()
+    user_id : Joi.string().required()
   };
 
   return Joi.validate(tran, schema);

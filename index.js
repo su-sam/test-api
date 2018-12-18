@@ -3,6 +3,7 @@
 const home = require('./routes/home');
 const user = require('./routes/user');
 const tran = require('./routes/trans');
+const img = require('./routes/img');
 
 const mongoose = require('mongoose');
 const express = require('express');
@@ -19,6 +20,7 @@ mongoose.connect('mongodb://localhost/car-park')
 app.use('/', home);
 app.use('/user',user);
 app.use('/trans',tran);
+app.use('/img',img);
 
 //network connection
 const port = process.env.PORT || 3008;

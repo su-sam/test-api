@@ -36,7 +36,7 @@ router.post('/create', async (req, res) => {
   });
 
   router.delete('/del/:id', async (req, res) => {
-    const tran = await users.findByIdAndRemove(req.params.id);
+    const tran = await txs.findByIdAndRemove(req.params.id);
   
     if (!tran) return res.status(404).send('The transaction with the given ID was not found.');
   

@@ -1,28 +1,27 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
-const {transDb} = require('./trans')
 
 const users = mongoose.model('users', new mongoose.Schema({
   vehicle_no: {
     type: String,
-    required: true,
     minlength: 5,
     maxlength: 7,
-    trim : true
+    trim : true,
+    required: true
   },
   fname:{
       type: String,
-      required: true,
       minlength:3,
       maxlength:50,
-      trim : true
+      trim : true,
+      required: true
   },
   lname:{
       type: String,
-      required: true,
       minlength:3,
       maxlength:50,
-      trim : true
+      trim : true,
+      required: true
   },
   last_online:{
       type: Date,
@@ -30,10 +29,10 @@ const users = mongoose.model('users', new mongoose.Schema({
   },
   email : {
       type: String,
-      trim : true,
-      required: true,
       minlength:3,
-      maxlength:50
+      maxlength:50,
+      trim : true,
+      required: true
   },
   online_status:{
       type: Boolean,
@@ -41,10 +40,10 @@ const users = mongoose.model('users', new mongoose.Schema({
   },
   tel : {
       type : String,
-      trim : true,
-      required: true,
       minlength:10,
-      maxlength:10
+      maxlength:10,
+      trim : true,
+      required: true
   }
 }));
 
