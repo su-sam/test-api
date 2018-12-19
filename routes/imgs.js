@@ -1,19 +1,19 @@
 const express = require('express');
-const Joi = require('joi');
+const mongoose = require('mongoose');
 
-const {imgs, validate} = require('../modules/img');
-const {users} = require('../modules/user')
+const {Imgs, validate} = require('../models/img');
+const {Customers} = require('../models/customer');
 
 
 const router = express.Router();
 
 router.get('/',async (req,res)=>{
-    const img = await imgs.find().populate('user_id','_id vehicle_no').sort('id');
+    const img = await Imgs.find().populate('customer_id','_id vehicle_no').sort('id');
     res.send(img);
 });
 
 router.get('/:id',async (req,res)=>{
-    const img = await imgs.findById(req.params.id).populate('user_id');
+    const img = await Imgs.findById(req.params.id).populate('customer_id');
     if (!img) return res.status(404).send('The image upload history with the given ID was not found.');
     res.send(img);
 });
@@ -22,13 +22,13 @@ router.post('/create', async (req, res) => {
     const { error } = validate(req.body); 
     if (error) return res.status(400).send(error.details[0].message);
 
-    const user = await users.findById(req.body.user_id);
-    if(!user) return res.status(400).send("Invalid user id ...");
+    const customer = await Customers.findById(req.body.customer_id);
+    if(!customer) return res.status(400).send("Invalid customer id ...");
   
-    let img = new txs({ 
+    let img = new Imgs({ 
         img_type: req.body.img_type,
         img_url : req.body.img_url,
-        user_id : user,
+        customer_id : customer,
         img_tx_id: req.body.img_tx_id
     });
     img = await img.save();
@@ -37,7 +37,7 @@ router.post('/create', async (req, res) => {
   });
 
   router.delete('/del/:id', async (req, res) => {
-    const img = await imgs.findByIdAndRemove(req.params.id);
+    const img = await Imgs.findByIdAndRemove(req.params.id);
   
     if (!img) return res.status(404).send('The image upload history with the given ID was not found.');
   

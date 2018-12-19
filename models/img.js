@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 
-const imgs = mongoose.model('imgs', new mongoose.Schema({
+const Imgs = mongoose.model('Imgs', new mongoose.Schema({
   upload_date : {
       type: Date,
       default: Date.now
@@ -17,9 +17,9 @@ const imgs = mongoose.model('imgs', new mongoose.Schema({
     trim : true,
     required : true
   },
-  user_id :{
+  customer_id :{
     type : mongoose.Schema.Types.ObjectId,
-    ref : "users",
+    ref : "Customers",
     trim : true,
     required : true
   },
@@ -36,12 +36,12 @@ function validateImgs(img) {
   const schema = {
     img_type: Joi.boolean(),
     img_url : Joi.string().min(5).max(255).required(),
-    user_id : Joi.string().required(),
+    customer_id : Joi.objectId().required(),
     img_tx_id: Joi.string().min(64).max(64).required()
   };
 
   return Joi.validate(img, schema);
 }
 
-exports.imgs = imgs; 
+exports.Imgs = Imgs; 
 exports.validate = validateImgs;

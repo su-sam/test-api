@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 
-const txs = mongoose.model('txs', new mongoose.Schema({
+const Txs = mongoose.model('Txs', new mongoose.Schema({
   tx_id : {
       type: String,
       minlength: 64,
@@ -17,9 +17,9 @@ const txs = mongoose.model('txs', new mongoose.Schema({
     type : Date,
     default : Date.now
   },
-  user_id :{
+  customer_id :{
     type : mongoose.Schema.Types.ObjectId,
-    ref : "users",
+    ref : "Customers",
     trim : true,
     required : true
   }
@@ -29,11 +29,11 @@ function validateTxs(tran) {
   const schema = {
     tx_id: Joi.string().min(64).max(64).required(),
     tx_status: Joi.boolean(),
-    user_id : Joi.string().required()
+    customer_id : Joi.objectId().required()
   };
 
   return Joi.validate(tran, schema);
 }
 
-exports.txs = txs; 
+exports.Txs = Txs; 
 exports.validate = validateTxs;

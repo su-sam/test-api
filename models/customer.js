@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 
-const users = mongoose.model('users', new mongoose.Schema({
+const Customers = mongoose.model('Customers', new mongoose.Schema({
   vehicle_no: {
     type: String,
     minlength: 5,
@@ -29,8 +29,8 @@ const users = mongoose.model('users', new mongoose.Schema({
   },
   email : {
       type: String,
-      minlength:3,
-      maxlength:50,
+      minlength:5,
+      maxlength:255,
       trim : true,
       required: true
   },
@@ -47,17 +47,17 @@ const users = mongoose.model('users', new mongoose.Schema({
   }
 }));
 
-function validateUser(user) {
+function validateCustomer(customer) {
   const schema = {
     vehicle_no: Joi.string().min(5).max(7).required(),
     fname: Joi.string().min(3).max(50).required(),
     lname: Joi.string().min(3).max(50).required(),
-    email: Joi.string().min(3).max(50).required(),
+    email: Joi.string().min(3).max(50).required().email(),
     tel: Joi.string().min(10).max(10).required()
   };
 
-  return Joi.validate(user, schema);
+  return Joi.validate(customer, schema);
 }
 
-exports.users = users; 
-exports.validate = validateUser;
+exports.Customers = Customers; 
+exports.validate = validateCustomer;
